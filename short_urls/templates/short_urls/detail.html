@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Short URL Detail{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Short URL Detail</h2>
+    <div class="card mt-3">
+        <div class="card-body">
+            <h5 class="card-title">Original URL: {{ short_url.original_url }}</h5>
+            <p class="card-text">Short Code: {{ short_url.short_code }}</p>
+            <p class="card-text">Created At: {{ short_url.created_at }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

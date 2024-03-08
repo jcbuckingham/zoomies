@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Short URLs{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Short URLs</h2>
+    <div class="mb-3">
+        <a href="{% url 'short_url_create' %}" class="btn btn-primary">Create New Short URL</a>
+    </div>
+    <table class="table table-striped mt-3">
+        <thead>
+            <tr>
+                <th scope="col">Original URL</th>
+                <th scope="col">Short Code</th>
+                <th scope="col">Created At</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for short_url in short_urls %}
+            <tr>
+                <td>{{ short_url.original_url }}</td>
+                <td>{{ short_url.short_code }}</td>
+                <td>{{ short_url.created_at }}</td>
+                <td>
+                    <a href="{% url 'short_url_update' short_url.pk %}" class="btn btn-sm btn-primary">Update</a>
+                    <form method="post" action="{% url 'short_url_delete' short_url.pk %}" style="display: inline-block;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this short URL?')">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">No short URLs available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

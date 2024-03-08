@@ -34,8 +34,8 @@ AUTH_USER_MODEL = "users.User"
 
 INSTALLED_APPS = [
     'debug_toolbar',
-    'polls.apps.PollsConfig',
     'users.apps.UsersConfig',
+    'short_urls.apps.ShortUrlsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -54,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'short_urls.middleware.LoginRequiredMiddleware',
 ]
 
 ROOT_URLCONF = 'zoomies.urls'
@@ -141,3 +142,5 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+DJANGO_SETTINGS_MODULE = 'zoomies.settings'

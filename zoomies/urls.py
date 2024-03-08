@@ -6,7 +6,7 @@ from zoomies import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('users.urls')),
-    path('api/', include('polls.urls')),
+    path('api/', include('short_urls.urls')),
 ]
 
 if settings.DEBUG:

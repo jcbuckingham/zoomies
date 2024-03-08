@@ -31,7 +31,7 @@ def register(request):
         if form.is_valid():
             form.save()
             # Redirect to a success page or login page
-            return redirect('/api/login')
+            return redirect(reverse("users:login"))
     else:
         form = SignUpForm()
     return render(request, 'users/register.html', {'form': form})
@@ -46,14 +46,14 @@ def login(request):
             if user is not None:
                 auth_login(request, user)
                 # Redirect to a success page
-                return redirect("/api/detail") 
+                return redirect(reverse('short_url_list')) 
     else:
         form = AuthenticationForm()
     return render(request, 'users/login.html', {'form': form})
 
 def logout(request):
     auth_logout(request)
-    return redirect('/api/login') 
+    return redirect(reverse("users:login")) 
     
 def index(request):
     user_list = get_user_model().objects.order_by("id")[:20]
