@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+<body
+    <h1> USER'S DETAILS </h1>
+    <h4>user detail: {{ request.user.id }} {{ request.user.first_name }} {{ request.user.last_name }}</h4>
+</body>
+</html>
