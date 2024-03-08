@@ -29,9 +29,12 @@ class ShortURLTests(TestCase):
         self.assertEqual(updated_short_url.original_url, 'http://updated.com')
 
     def test_short_url_delete_view(self):
-        response = self.client.post(reverse('short_url_delete', kwargs={'pk': self.short_url.pk}))
+        short_url = ShortURL.objects.create(original_url='http://delete_me.com', short_code='delete123')
+        pk = short_url.pk
+        response = self.client.post(reverse('short_url_delete', kwargs={'pk': pk}))
+        print(response)
         self.assertEqual(response.status_code, 302)  # Redirect status code
-        self.assertFalse(ShortURL.objects.filter(pk=self.short_url.pk).exists())
+        self.assertFalse(ShortURL.objects.filter(pk=pk).exists())
 
     def test_short_url_form(self):
         form_data = {'original_url': 'http://example.com/abc', 'short_code': 'abc234'}
@@ -43,7 +46,22 @@ class ShortURLTests(TestCase):
         form = ShortURLForm(data=form_data)
         self.assertFalse(form.is_valid())
 
-    def test_short_url_form_optional_short_code(self):
-        form_data = {'original_url': '', 'short_code': None}  # Invalid form data
+    def test_short_code_optional(self):
+        # Test that short_code is optional
+        form_data = {'original_url': 'http://example.com', 'short_code': ''}
+        form = ShortURLForm(data=form_data)
+        self.assertTrue(form.is_valid())
+
+    def test_short_code_generation(self):
+        # Test that short_code is generated if empty
+        form_data = {'original_url': 'http://example.com', 'short_code': ''}
+        form = ShortURLForm(data=form_data)
+        self.assertTrue(form.is_valid())
+        self.assertTrue(form.cleaned_data['short_code'])
+
+    def test_invalid_url(self):
+        # Test invalid URL
+        form_data = {'original_url': 'invalidurl', 'short_code': ''}
         form = ShortURLForm(data=form_data)
         self.assertFalse(form.is_valid())
+        self.assertIn('original_url', form.errors)
