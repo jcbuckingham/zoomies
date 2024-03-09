@@ -11,7 +11,7 @@ class LoginRequiredMiddleware:
         # which we will attempt to map to a short_url
         if request.path == reverse('users:login') or \
            request.path == reverse('users:register') or \
-           not re.match(r'^\/api\/.*', request.path):
+           not request.path.startswith('/api'):
             return self.get_response(request)
 
         # Check if the user is authenticated

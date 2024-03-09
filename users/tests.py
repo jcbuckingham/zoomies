@@ -22,10 +22,14 @@ class UserTests(TestCase):
         self.assertEqual(response.status_code, 302)  # Should redirect after successful registration
 
     def test_login_view(self):
+        response = self.client.post(reverse('users:register'), data=self.user_data)
+        self.assertEqual(response.status_code, 302)
+        response = self.client.get(reverse('users:logout'))
+
         response = self.client.get(reverse('users:login'))
         self.assertEqual(response.status_code, 200)
         
-        response = self.client.post(reverse('users:login'), data={'username': 'testuser', 'password': 'testpassword'})
+        response = self.client.post(reverse('users:login'), data={'username': self.user_data['username'], 'password': self.user_data['password1']})
         self.assertEqual(response.status_code, 302)  # Should redirect after successful login
         
     def test_logout_view(self):

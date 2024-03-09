@@ -8,9 +8,6 @@ urlpatterns = [
     # Create a new short URL
     path('short_urls/create/', views.short_url_create, name='short_url_create'),
 
-    # View details of a specific short URL
-    path('short_urls/<int:pk>/', views.short_url_detail, name='short_url_detail'),
-
     # Update a specific short URL
     path('short_urls/<int:pk>/update/', views.short_url_update, name='short_url_update'),
 

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 
 class ShortURL(models.Model):
     # Short URL's primary key
@@ -9,6 +10,8 @@ class ShortURL(models.Model):
     short_code = models.CharField(max_length=50, unique=True)
     # Date when the short URL was created
     created_at = models.DateTimeField(auto_now_add=True)
+    # Foreign key to the User table
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
 
     def __str__(self):
         return self.original_url

@@ -15,9 +15,9 @@ def redirect_to_original_url(request, short_code):
     return redirect(short_url.original_url)
 
 
-# List all short_urls
+# List all short_urls for the authenticated user
 def short_url_list(request):
-    short_urls = ShortURL.objects.all()
+    short_urls = ShortURL.objects.filter(user=request.user)
     return render(request, 'short_urls/list.html', {'short_urls': short_urls})
 
 # Create a short_url
@@ -25,24 +25,20 @@ def short_url_create(request):
     if request.method == 'POST':
         form = ShortURLForm(request.POST)
         if form.is_valid():
-            form.save()
+            form.save(user=request.user)
             return redirect('short_url_list')
     else:
         form = ShortURLForm()
     return render(request, 'short_urls/create.html', {'form': form})
 
-# Details for a short_url
-def short_url_detail(request, pk):
-    short_url = get_object_or_404(ShortURL, pk=pk)
-    return render(request, 'short_urls/detail.html', {'short_url': short_url})
-
 # Update a short_url
 def short_url_update(request, pk):
-    short_url = get_object_or_404(ShortURL, pk=pk)
+    # Return a 404 if the object doesn't exist or isn't associated to the authenticated user
+    short_url = get_object_or_404(ShortURL, pk=pk, user_id=request.user.id)
     if request.method == 'POST':
         form = ShortURLForm(request.POST, instance=short_url)
         if form.is_valid():
-            form.save()
+            form.save(user=request.user)
             return redirect('short_url_list')
     else:
         form = ShortURLForm(instance=short_url)
@@ -50,11 +46,14 @@ def short_url_update(request, pk):
 
 # Delete a short_url
 def short_url_delete(request, pk):
-    print("%^%^%^%^%^%^%^%^%^%^%")
-    short_url = get_object_or_404(ShortURL, pk=pk)
+    # Return a 404 if the object doesn't exist or isn't associated to the authenticated user
+    try:
+        short_url = ShortURL.objects.get(pk=pk, user_id=request.user.id)
+    except ShortURL.DoesNotExist:
+        # TODO: Add logging here for unexpected cases: when a user deletes a deleted object or attempts to delete another user's object
+        return redirect('short_url_list')
+    
     if request.method == 'POST':
-        print("DELETING....")
         short_url.delete()
         return redirect('short_url_list')
-    print("DID NOT DELETE")
     return render(request, 'short_urls/delete.html', {'short_url': short_url})

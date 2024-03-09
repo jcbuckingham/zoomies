@@ -143,4 +143,4 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-DJANGO_SETTINGS_MODULE = 'zoomies.settings'
+TEST_RUNNER = 'zoomies.custom_test_runner.ColoredTestRunner'
