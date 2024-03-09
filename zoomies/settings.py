@@ -35,6 +35,8 @@ AUTH_USER_MODEL = "users.User"
 INSTALLED_APPS = [
     'bootstrap5',
     'debug_toolbar',
+    'drf_yasg',
+    'rest_framework',
     'users.apps.UsersConfig',
     'short_urls.apps.ShortUrlsConfig',
     'django.contrib.admin',

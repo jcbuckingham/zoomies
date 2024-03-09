@@ -8,14 +8,13 @@ A URL-shortening service.
 
     ```bash
     git clone https://github.com/jcbuckingham/zoomies.git
-    cd your-project
     ```
 
 2. Create a virtual environment and activate it:
 
     ```bash
-    python -m venv venv
-    source venv/bin/activate  # On Windows, use venv\Scripts\activate
+    python -m venv env
+    source env/bin/activate  # On Windows, use venv\Scripts\activate
     ```
 
 3. Install dependencies:
@@ -40,7 +39,9 @@ A URL-shortening service.
 
 ## Usage
 
-Describe how to use your application and any additional setup or configuration required.
+See API Documentation at `http://localhost:8000/swagger` for authentication usage and CRUD for short_urls
+
+For incoming traffic that should be routed with a shortened url, use `http://localhost:8000/<short code>`
 
 ## Features
 
