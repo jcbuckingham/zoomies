@@ -1,0 +1,81 @@
+openapi: "3.0.0"
+info:
+  title: Short URL API
+  version: "1.0.0"
+paths:
+  /short_urls:
+    get:
+      summary: List all short URLs
+      responses:
+        "200":
+          description: List of short URLs
+    post:
+      summary: Create a new short URL
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ShortURLForm"
+      responses:
+        "302":
+          description: Redirect to the list of short URLs
+  /short_urls/{pk}/update/:
+    get:
+      summary: Retrieve a specific short URL for update
+      parameters:
+        - name: pk
+          in: path
+          required: true
+          description: ID of the short URL to update
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Short URL update form
+    post:
+      summary: Update a specific short URL
+      parameters:
+        - name: pk
+          in: path
+          required: true
+          description: ID of the short URL to update
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ShortURLForm"
+      responses:
+        "302":
+          description: Redirect to the list of short URLs
+  /short_urls/{pk}/delete/:
+    post:
+      summary: Delete a specific short URL
+      parameters:
+        - name: pk
+          in: path
+          required: true
+          description: ID of the short URL to delete
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "302":
+          description: Redirect to the list of short URLs
+components:
+  schemas:
+    ShortURLForm:
+      type: object
+      properties:
+        original_url:
+          type: string
+          format: uri
+        short_code:
+          type: string
+      required:
+        - original_url
