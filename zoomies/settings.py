@@ -89,11 +89,11 @@ WSGI_APPLICATION = 'zoomies.wsgi.application'
 DATABASES = {
    'default': {
        'ENGINE': 'django.db.backends.postgresql',
-       'NAME': 'zoomies_dev',
-       'USER': '',
-       'PASSWORD': '',
-       'HOST': 'localhost',
-       'PORT': '5432',
+       'NAME': os.environ.get("DB_NAME") or 'zoomies_dev',
+       'USER': os.environ.get("DB_USER") or 'username',
+       'PASSWORD': os.environ.get("DB_PASSWORD") or 'secret123',
+       'HOST': os.environ.get("DB_HOST") or "127.0.0.1",
+       'PORT': os.environ.get("DB_PORT") or '5432',
        'TEST': {
             'NAME': 'test_db',
         },

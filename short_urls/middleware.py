@@ -3,8 +3,6 @@ from django.urls import reverse
 AUTH_NOT_REQUIRED_PATHS = [
     reverse('users:login'),
     reverse('users:register'),
-    reverse('schema-swagger-ui'),
-    reverse('schema-redoc'),
     reverse('openapi-schema'),
 ]
 

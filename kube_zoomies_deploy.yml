@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zoomies-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zoomies
+  template:
+    metadata:
+      labels:
+        app: zoomies
+    spec:
+      containers:
+      - name: zoomies
+        image: zoomies:0.0.6 # this isn't hosted, so build the dockerfile and replace with build version
+        ports:
+        - containerPort: 8000
+        env:
+        - name: DB_HOST
+          value: "postgresql-service"
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_NAME
+          value: "zoomies_dev"
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgresql-secret
+              key: username
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgresql-secret
+              key: password
