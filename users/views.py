@@ -12,6 +12,8 @@ class SignUpForm(UserCreationForm):
       model = User 
       fields = ('username', 'first_name', 'last_name', 'email',)
 
+# Allows a new user to register using template data, validates the data, and saves.  
+# The user is able to be authenticated after creation. They are directed to 'login' to sign in.
 def register(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -23,6 +25,7 @@ def register(request):
         form = SignUpForm()
     return render(request, 'users/register.html', {'form': form})
 
+# Authenticates user. If successful, redirects to the user's short_urls. Otherwise, remains on login screen.
 def login(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
@@ -38,6 +41,7 @@ def login(request):
         form = AuthenticationForm()
     return render(request, 'users/login.html', {'form': form})
 
+# Logout and redirects to register. 
 def logout(request):
     auth_logout(request)
     return redirect(reverse("users:register")) 

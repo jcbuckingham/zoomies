@@ -2,3 +2,4 @@ env/*
 .pytest_cache/*
 users/__pycache__/*
 short_urls/__pycache__/*
+zoomies/__pycache__/*

@@ -3,15 +3,14 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import ShortURL
 from .forms import ShortURLForm
 
+# Retrieve the ShortURL object associated with the provided short_code and redirect to the original url if found.
 def redirect_to_original_url(request, short_code):
-    # Retrieve the ShortURL object associated with the provided short_code
     try:
         short_url = ShortURL.objects.get(short_code=short_code)
     except ShortURL.DoesNotExist:
         # Handle case where short_code is not found
         return HttpResponseNotFound("Short URL not found")
 
-    # Redirect to the original URL
     return redirect(short_url.original_url)
 
 

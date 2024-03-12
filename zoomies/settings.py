@@ -86,6 +86,7 @@ WSGI_APPLICATION = 'zoomies.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# Defaults are for local use
 DATABASES = {
    'default': {
        'ENGINE': 'django.db.backends.postgresql',
